@@ -1,34 +1,13 @@
-import React,{useState, useEffect } from 'react';
+import React,{useState, useEffect } from 'react';//usestate is hook, provides spcl fucntionality to the
+//useEffect is used to render one compenent whenever screen loads 
+//useEffect(() => {}, []) pass in empty array for only once, add value to render multiple times
 import {View, Text, StyleSheet} from 'react-native';
 import SearchBar from './components/SearchBar';
-import yelp from '../api/yelp';
+import useResults from '../hooks/useResults';
 
 const SearchScreen = () => {
     const [term, setTerm] = useState('');
-    const [results, setResults] = useState([]);
-    const[errorMessage, setErrorMessage] = useState(''); 
-    //always think about state 
-    //when u want to update anything on the screen 
-  
-    const searchApi = async(searchTerm) =>{
-        console.log('Hi There !');
-        try{
-        const response =await yelp.get('/search', {
-           params: {
-                limit: 50,
-                term: searchTerm,
-                location:'san jose'
-            }
-        });
-        setResults(response.data.businesses);
-    } catch (err) {
-      setErrorMessage('Something went wrong');
-    }
-    };
-
-    useEffect(() => {
-        searchApi('pasta');
-    },[]);
+    const [searchApi, results, errorMessage] = useResults();
 
     return(
         <View>
